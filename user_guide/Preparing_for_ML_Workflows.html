@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8"/>
+  <title>
+   Preparing for ML Workflows — xarray_filters 0.0.3+3.gffd8dcf documentation
+  </title>
+  <meta content="Short description for html meta description." name="description"/>
+  <meta content="xarray_filters contributors" name="author"/>
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js">
+  </script>
+  <script>
+   WebFont.load({
+      google: {
+        families: ['Source Sans Pro']
+      }
+    });
+  </script>
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/css/main.css" rel="stylesheet"/>
+  <link href="../_static/nbsite.css" rel="stylesheet"/>
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  </script>
+  <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript">
+  </script>
+  <script src="../_static/js/main.js">
+  </script>
+  <script src="../_static/nbsite.js">
+  </script>
+  <script src="../_static/require.js">
+  </script>
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="../_static/images/favicon.ico" rel="icon" type="image/png"/>
+  <!-- Canonical
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="/user_guide/Preparing_for_ML_Workflows.html" rel="canonical"/>
+ </head>
+ <body class="">
+  <header class="navigation">
+   <div class="wrapper">
+    <a class="logo" href="../index.html">
+     <img alt="Logo" src="../_static/images/logo.png"/>
+    </a>
+    <a class="navigation-menu logo-text" href="../index.html">
+     xarray_filters
+    </a>
+    <a class="navigation-menu-button" href="javascript:void(0)" id="js-mobile-menu">
+     Menu
+    </a>
+    <nav>
+     <ul class="navigation-menu show" id="js-navigation-menu">
+      <li class="nav-link">
+       <a href="index.html">
+        User Guide
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="nav-link">
+       <a href="../about.html">
+        About
+       </a>
+      </li>
+      <li class="nav-link">
+       <div style="display:inline-block;vertical-align: middle;">
+        <div class="search-bar">
+         <form action="../search.html" method="get" role="search">
+          <input name="q" placeholder="Search" type="search"/>
+          <button type="submit">
+           <img alt="Search Icon" src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/search-icon-black.png"/>
+          </button>
+         </form>
+        </div>
+       </div>
+      </li>
+     </ul>
+    </nav>
+   </div>
+  </header>
+  <!-- MAIN BODY OF DOCS –––––––––––––––––– -->
+  <div class="docs section">
+   <div id="hacketyhackhack">
+    <!-- style="width:20%;margin-right: 100px;"> -->
+    <!--style="display: none;"> style="display:none;"> -->
+    <div class="toc" style="width:15%; margin-right:20px;">
+     <ul class="current">
+      <li class="toctree-l1">
+       <a class="reference internal" href="../index.html">
+        Introduction
+       </a>
+      </li>
+      <li class="toctree-l1 current">
+       <a class="reference internal" href="index.html">
+        User Guide
+       </a>
+       <ul class="current">
+        <li class="toctree-l2 current">
+         <a class="current reference internal" href="#">
+          Preparing for ML Workflows
+         </a>
+        </li>
+       </ul>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../FAQ.html">
+        FAQ
+       </a>
+      </li>
+      <li class="toctree-l1">
+       <a class="reference internal" href="../about.html">
+        About
+       </a>
+      </li>
+     </ul>
+    </div>
+   </div>
+   <div class="content">
+    <!-- style="max-width:80%;margin-left:auto;margin-right: auto;">-->
+    <div class="section" id="preparing-for-ml-workflows">
+     <h1>
+      Preparing for ML Workflows
+      <a class="headerlink" href="#preparing-for-ml-workflows" title="Permalink to this headline">
+       ¶
+      </a>
+     </h1>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <ul>
+         <li>
+          Given and
+          <code>
+           xarray.Dataset
+          </code>
+          of rasters or N-D arrays, reshape them to a feature matrix for ML, retaining coordinate system metadata, and call a sequence of transformations on them.
+         </li>
+         <li>
+          <code>
+           MLDataset
+          </code>
+          from
+          <a href="https://github.com/ContinuumIO/xarray_filters">
+           xarray_filters
+          </a>
+          is a subclass of
+          <code>
+           xarray.Dataset
+          </code>
+          with methods for reshaping the
+          <code>
+           Dataset
+          </code>
+          's
+          <code>
+           DataArray
+          </code>
+          s from time series, rasters, or N-D arrays into a single 2-D
+          <code>
+           DataArray
+          </code>
+          for input to statistical models.
+         </li>
+         <li>
+          New methods:
+          <ul>
+           <li>
+            <code>
+             MLDataset.to_features
+            </code>
+           </li>
+           <li>
+            <code>
+             MLDataset.from_features
+            </code>
+           </li>
+           <li>
+            <code>
+             MLDataset.chain
+            </code>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [1]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">xarray_filters</span> <span class="k">import</span> <span class="o">*</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         The following cell imports a function to create example
+         <code>
+          xarray_filters.MLDataset
+         </code>
+         objects.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [2]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="kn">from</span> <span class="nn">xarray_filters.tests.test_data</span> <span class="k">import</span> <span class="n">new_test_dataset</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <h2 id="Example-collection-of-4-D-weather-arrays">
+         Example collection of 4-D weather arrays
+         <a class="anchor-link" href="#Example-collection-of-4-D-weather-arrays">
+          ¶
+         </a>
+        </h2>
+        <p>
+         <code>
+          (x, y, z, t)
+         </code>
+         for several state variables
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [3]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">new_test_dataset</span><span class="p">((</span><span class="s1">'pressure'</span><span class="p">,</span> <span class="s1">'temperature'</span><span class="p">,</span> <span class="s1">'wind_x'</span><span class="p">,</span> <span class="s1">'wind_y'</span><span class="p">))</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [4]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">X</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[4]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:      (t: 48, x: 20, y: 15, z: 8)
+Coordinates:
+  * x            (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  * y            (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+  * z            (z) int64 0 1 2 3 4 5 6 7
+  * t            (t) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+Data variables:
+    pressure     (x, y, z, t) float64 0.943 0.8551 0.8603 0.1391 0.1404 ...
+    temperature  (x, y, z, t) float64 0.5724 0.5373 0.3906 0.4199 0.4054 ...
+    wind_x       (x, y, z, t) float64 0.8993 0.1015 0.3021 0.2888 0.9948 ...
+    wind_y       (x, y, z, t) float64 0.421 0.548 0.129 0.8564 0.3161 0.6974 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         Methods of
+         <code>
+          MLDataset
+         </code>
+         that are not methods of
+         <code>
+          xarray.Dataset
+         </code>
+         :
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [5]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">MLDataset</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">))</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[5]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>{'_guess_yname',
+ 'chain',
+ 'concat_ml_features',
+ 'from_features',
+ 'has_features',
+ 'to_dataset',
+ 'to_features',
+ 'to_mldataset',
+ 'to_xy_arrays'}</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <h2 id="Aggregating-first">
+         Aggregating first
+         <a class="anchor-link" href="#Aggregating-first">
+          ¶
+         </a>
+        </h2>
+        <p>
+         One option is to aggregate along 1 or more dims before converting to a single feature matrix
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [6]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">X_means_raster</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s1">'z'</span><span class="p">,</span> <span class="s1">'t'</span><span class="p">))</span>
+<span class="n">X_means_raster</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[6]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:      (x: 20, y: 15)
+Coordinates:
+  * x            (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  * y            (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+Data variables:
+    pressure     (x, y) float64 0.508 0.5191 0.5156 0.5092 0.5189 0.5338 ...
+    temperature  (x, y) float64 0.5052 0.5113 0.4797 0.4966 0.4957 0.4917 ...
+    wind_x       (x, y) float64 0.4842 0.4966 0.5015 0.4939 0.5007 0.4915 ...
+    wind_y       (x, y) float64 0.5257 0.4968 0.4746 0.509 0.459 0.5048 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <h3 id="xarray_filters.MLDataset.to_features">
+         <code>
+          xarray_filters.MLDataset.to_features
+         </code>
+         <a class="anchor-link" href="#xarray_filters.MLDataset.to_features">
+          ¶
+         </a>
+        </h3>
+        <p>
+         <code>
+          to_features()
+         </code>
+        </p>
+        <ul>
+         <li>
+          Flatten each 4-D array of
+          <code>
+           X
+          </code>
+          to a column
+         </li>
+         <li>
+          Concatenates columns to a
+          <code>
+           DataArray
+          </code>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [7]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+<span class="n">f</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[7]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (layer: 4, space: 115200)
+Coordinates:
+  * space     (space) MultiIndex
+  - x         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - y         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - z         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - t         (space) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ...
+  * layer     (layer) object 'pressure' 'temperature' 'wind_x' 'wind_y'
+Data variables:
+    features  (space, layer) float64 0.943 0.5724 0.8993 0.421 0.8551 0.5373 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         The coordinates of the 4-D arrays are now in a
+         <code>
+          pandas.MultiIndex
+         </code>
+         .
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [8]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">space</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[8]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'space' (space: 115200)&gt;
+array([(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), ..., (19, 14, 7, 45),
+       (19, 14, 7, 46), (19, 14, 7, 47)], dtype=object)
+Coordinates:
+  * space    (space) MultiIndex
+  - x        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - y        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - z        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - t        (space) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         The columns of the
+         <code>
+          features
+         </code>
+         <code>
+          DataArray
+         </code>
+         are named by the
+         <code>
+          layer
+         </code>
+         that was flattened from 4-D to a 1-D column.  Usage of
+         <code>
+          OrderedDict
+         </code>
+         throughout
+         <code>
+          MLDataset
+         </code>
+         internals ensures that the
+         <code>
+          layers
+         </code>
+         (
+         <code>
+          DataArray
+         </code>
+         s) always iterate into the same column order.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [9]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">layer</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[9]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'layer' (layer: 4)&gt;
+array(['pressure', 'temperature', 'wind_x', 'wind_y'], dtype=object)
+Coordinates:
+  * layer    (layer) object 'pressure' 'temperature' 'wind_x' 'wind_y'</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         Showing the first few
+         <code>
+          (x, y, z, t)
+         </code>
+         coordinates of the
+         <code>
+          pandas.MultiIndex
+         </code>
+         <code>
+          space
+         </code>
+         :
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [10]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s1">'space'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[:</span><span class="mi">4</span><span class="p">]</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[10]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>[(0, 0, 0, 0), (0, 0, 0, 1), (0, 0, 0, 2), (0, 0, 0, 3)]</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [11]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">space</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="s1">'space'</span><span class="p">]</span><span class="o">.</span><span class="n">names</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[11]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>FrozenList(['x', 'y', 'z', 't'])</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [12]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">f</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">values</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[12]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>array([[ 0.94304574,  0.57237128,  0.89926858,  0.42103063],
+       [ 0.8550843 ,  0.53726692,  0.10153233,  0.54802044],
+       [ 0.86031506,  0.3906344 ,  0.30205406,  0.12903882],
+       ..., 
+       [ 0.41045238,  0.74009848,  0.78442477,  0.30888828],
+       [ 0.94600064,  0.00691722,  0.10819362,  0.57415637],
+       [ 0.76668616,  0.65057938,  0.69437022,  0.97104589]])</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         It is also possible to transpose the
+         <code>
+          layers
+         </code>
+         before calling
+         <code>
+          .ravel()
+         </code>
+         on each one (the usage of the
+         <code>
+          trans_dims
+         </code>
+         keyword to
+         <code>
+          to_features()
+         </code>
+         ):
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [13]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">example2</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'x'</span><span class="p">)</span><span class="o">.</span><span class="n">to_features</span><span class="p">(</span><span class="n">trans_dims</span><span class="o">=</span><span class="p">(</span><span class="s1">'t'</span><span class="p">,</span> <span class="s1">'z'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">))</span>
+<span class="n">example2</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[13]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (layer: 4, space: 5760)
+Coordinates:
+  * space     (space) MultiIndex
+  - t         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - z         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 ...
+  - y         (space) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 0 1 2 3 4 5 6 ...
+  * layer     (layer) object 'pressure' 'temperature' 'wind_x' 'wind_y'
+Data variables:
+    features  (space, layer) float64 0.5578 0.5186 0.6317 0.4923 0.5377 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <h3 id="data_vars_func-decorator">
+         <code>
+          data_vars_func
+         </code>
+         decorator
+         <a class="anchor-link" href="#data_vars_func-decorator">
+          ¶
+         </a>
+        </h3>
+        <p>
+         The
+         <code>
+          data_vars_func
+         </code>
+         decorator allows writing a function that takes named
+         <code>
+          layers
+         </code>
+         as keywords or positional arguments.  In the example below, it is assumed that the decorated
+         <code>
+          magnitude
+         </code>
+         function will be passed to
+         <code>
+          X.chain
+         </code>
+         in situations where
+         <code>
+          X
+         </code>
+         has
+         <code>
+          layers
+         </code>
+         named
+         <code>
+          wind_x
+         </code>
+         ,
+         <code>
+          wind_y
+         </code>
+         .  All other
+         <code>
+          data_vars
+         </code>
+         keys/values are passed as
+         <code>
+          other_data_vars
+         </code>
+         keyword arguments.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [14]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">magnitude</span><span class="p">(</span><span class="n">wind_x</span><span class="p">,</span> <span class="n">wind_y</span><span class="p">,</span> <span class="o">**</span><span class="n">other_data_vars</span><span class="p">):</span>
+    <span class="n">a2</span> <span class="o">=</span> <span class="n">wind_x</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">b2</span> <span class="o">=</span> <span class="n">wind_y</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">mag</span> <span class="o">=</span> <span class="p">(</span><span class="n">a2</span> <span class="o">+</span> <span class="n">b2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="n">mag</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="p">[</span><span class="s1">'wind_x'</span><span class="p">,</span> <span class="s1">'wind_y'</span><span class="p">])</span><span class="o">.</span><span class="n">to_features</span><span class="p">(</span><span class="n">features_layer</span><span class="o">=</span><span class="s1">'magnitude'</span><span class="p">)</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[14]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:    (t: 48, x: 20, y: 15, z: 8)
+Coordinates:
+  * x          (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  * y          (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+  * z          (z) int64 0 1 2 3 4 5 6 7
+  * t          (t) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+Data variables:
+    magnitude  (x, y, z, t) float64 0.993 0.5573 0.3285 0.9038 1.044 0.8807 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <h3 id="for_each_array-decorator">
+         <code>
+          for_each_array
+         </code>
+         decorator
+         <a class="anchor-link" href="#for_each_array-decorator">
+          ¶
+         </a>
+        </h3>
+        <p>
+         <code>
+          for_each_array
+         </code>
+         allows automates calling a function that takes a
+         <code>
+          DataArray
+         </code>
+         argument and returns a
+         <code>
+          DataArray
+         </code>
+         for each
+         <code>
+          DataArray
+         </code>
+         (
+         <code>
+          layer
+         </code>
+         ) in a
+         <code>
+          MLDataset
+         </code>
+         :
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [15]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">plus_one</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">minus_one</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span> <span class="o">-</span> <span class="mi">1</span>
+
+
+<span class="n">plus</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">plus_one</span><span class="p">)</span>
+<span class="n">minus</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">minus_one</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">plus</span><span class="o">.</span><span class="n">wind_x</span> <span class="o">-</span> <span class="n">minus</span><span class="o">.</span><span class="n">wind_x</span> <span class="o">==</span> <span class="mf">2.</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">plus</span><span class="o">.</span><span class="n">temperature</span> <span class="o">-</span> <span class="n">minus</span><span class="o">.</span><span class="n">temperature</span> <span class="o">==</span> <span class="mf">2.</span><span class="p">)</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [16]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">transform_example</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="n">up</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'z'</span><span class="p">)</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'z'</span><span class="p">)</span>
+    <span class="n">median</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'z'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">median</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">up</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span>
+
+<span class="n">X</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">transform_example</span><span class="p">)</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[16]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:      (t: 48, x: 20, y: 15, z: 8)
+Coordinates:
+  * x            (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  * y            (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+  * z            (z) int64 0 1 2 3 4 5 6 7
+  * t            (t) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+    quantile     float64 0.5
+Data variables:
+    pressure     (x, y, z, t) float64 0.5874 0.4168 1.752 -0.5453 -0.6057 ...
+    temperature  (x, y, z, t) float64 0.0413 -0.1025 -0.4854 -0.1276 0.07339 ...
+    wind_x       (x, y, z, t) float64 0.7737 -1.761 -0.8992 -0.4616 1.172 ...
+    wind_y       (x, y, z, t) float64 0.3701 0.129 -1.655 1.048 -1.106 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [17]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">agg_example</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'t'</span><span class="p">)</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'z'</span><span class="p">)</span>
+
+<span class="n">aggregated</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">chain</span><span class="p">((</span><span class="n">transform_example</span><span class="p">,</span> <span class="n">agg_example</span><span class="p">))</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [18]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">aggregated</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[18]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:      (x: 20, y: 15)
+Coordinates:
+  * x            (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  * y            (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+    quantile     float64 0.25
+Data variables:
+    pressure     (x, y) float64 -0.01103 -0.04669 -0.05397 -0.04531 -0.1158 ...
+    temperature  (x, y) float64 0.02512 -0.06629 -0.04142 -0.01822 -0.04365 ...
+    wind_x       (x, y) float64 -0.104 -0.03628 -0.09501 -0.04018 -0.04926 ...
+    wind_y       (x, y) float64 -0.09337 -0.06528 0.04342 -0.08975 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         With
+         <code>
+          data_vars_func
+         </code>
+         decorated functions, anything
+         <code>
+          dict
+         </code>
+         -like, an
+         <code>
+          MLDataset
+         </code>
+         or
+         <code>
+          xarray.Dataset
+         </code>
+         may be returned and it will be converted to
+         <code>
+          MLDataset
+         </code>
+         :
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [19]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">wind_x</span><span class="p">,</span> <span class="n">wind_y</span><span class="p">,</span> <span class="n">temperature</span><span class="p">,</span> <span class="n">pressure</span><span class="p">):</span>
+    <span class="n">mag</span> <span class="o">=</span> <span class="p">(</span><span class="n">wind_x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">wind_y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">'mag'</span><span class="p">,</span> <span class="n">mag</span><span class="p">),</span> <span class="p">(</span><span class="s1">'temperature'</span><span class="p">,</span> <span class="n">temperature</span><span class="p">),</span> <span class="p">(</span><span class="s1">'pressure'</span><span class="p">,</span> <span class="n">pressure</span><span class="p">)])</span>
+
+<span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[19]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:      (t: 48, x: 20, y: 15, z: 8)
+Coordinates:
+  * x            (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+  * y            (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14
+  * z            (z) int64 0 1 2 3 4 5 6 7
+  * t            (t) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+Data variables:
+    mag          (x, y, z, t) float64 0.993 0.5573 0.3285 0.9038 1.044 ...
+    temperature  (x, y, z, t) float64 0.5724 0.5373 0.3906 0.4199 0.4054 ...
+    pressure     (x, y, z, t) float64 0.943 0.8551 0.8603 0.1391 0.1404 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [20]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">feat</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+<span class="n">feat</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[20]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (layer: 3, space: 115200)
+Coordinates:
+  * space     (space) MultiIndex
+  - x         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - y         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - z         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - t         (space) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 ...
+  * layer     (layer) object 'mag' 'temperature' 'pressure'
+Data variables:
+    features  (space, layer) float64 0.993 0.5724 0.943 0.5573 0.5373 0.8551 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [21]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">feat</span><span class="o">.</span><span class="n">features</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[21]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'features' (space: 115200, layer: 3)&gt;
+array([[ 0.992951,  0.572371,  0.943046],
+       [ 0.557347,  0.537267,  0.855084],
+       [ 0.328463,  0.390634,  0.860315],
+       ..., 
+       [ 0.843051,  0.740098,  0.410452],
+       [ 0.584261,  0.006917,  0.946001],
+       [ 1.193767,  0.650579,  0.766686]])
+Coordinates:
+  * space    (space) MultiIndex
+  - x        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - y        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - z        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - t        (space) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+  * layer    (layer) object 'mag' 'temperature' 'pressure'</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [22]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">feat</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">values</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[22]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>array([[ 0.99295053,  0.57237128,  0.94304574],
+       [ 0.55734658,  0.53726692,  0.8550843 ],
+       [ 0.32846259,  0.3906344 ,  0.86031506],
+       ..., 
+       [ 0.84305053,  0.74009848,  0.41045238],
+       [ 0.58426141,  0.00691722,  0.94600064],
+       [ 1.19376719,  0.65057938,  0.76668616]])</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <h3 id="xarray_filters.MLDataset.chain">
+         <code>
+          xarray_filters.MLDataset.chain
+         </code>
+         <a class="anchor-link" href="#xarray_filters.MLDataset.chain">
+          ¶
+         </a>
+        </h3>
+        <p>
+         <code>
+          .chain
+         </code>
+         can be called on an
+         <code>
+          MLDataset
+         </code>
+         to run callables in sequence, passing an
+         <code>
+          MLDataset
+         </code>
+         between steps.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [23]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">agg_x</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'x'</span><span class="p">)</span>
+
+<span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">agg_y</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'y'</span><span class="p">)</span>
+
+<span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">agg_z</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'z'</span><span class="p">)</span>
+
+
+<span class="n">time_series</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">chain</span><span class="p">((</span><span class="n">agg_x</span><span class="p">,</span> <span class="n">agg_y</span><span class="p">,</span> <span class="n">agg_z</span><span class="p">))</span>
+<span class="n">time_series</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[23]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:      (t: 48)
+Coordinates:
+  * t            (t) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+Data variables:
+    pressure     (t) float64 0.508 0.4951 0.4975 0.5013 0.5014 0.5066 0.4998 ...
+    temperature  (t) float64 0.5044 0.5052 0.5007 0.5057 0.4996 0.5017 ...
+    wind_x       (t) float64 0.4913 0.5015 0.5028 0.4994 0.5049 0.4974 ...
+    wind_y       (t) float64 0.5018 0.4952 0.5008 0.5008 0.5029 0.5041 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [24]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">time_series</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span><span class="o">.</span><span class="n">features</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[24]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'features' (t: 48, layer: 4)&gt;
+array([[ 0.508011,  0.50441 ,  0.491325,  0.501791],
+       [ 0.495105,  0.505195,  0.501508,  0.495244],
+       [ 0.497456,  0.500709,  0.50275 ,  0.500827],
+       [ 0.501316,  0.505695,  0.499432,  0.500814],
+       [ 0.501423,  0.499579,  0.504869,  0.502901],
+       [ 0.506578,  0.501706,  0.497429,  0.504051],
+       [ 0.499826,  0.5057  ,  0.496623,  0.504154],
+       [ 0.497774,  0.494554,  0.506317,  0.49565 ],
+       [ 0.49754 ,  0.502164,  0.503356,  0.489029],
+       [ 0.500576,  0.501813,  0.501686,  0.503828],
+       [ 0.506306,  0.501103,  0.492398,  0.50422 ],
+       [ 0.494418,  0.49479 ,  0.500274,  0.496992],
+       [ 0.509054,  0.498496,  0.507002,  0.502409],
+       [ 0.498281,  0.483517,  0.491937,  0.496341],
+       [ 0.493782,  0.498443,  0.496371,  0.497739],
+       [ 0.506201,  0.493848,  0.503532,  0.501417],
+       [ 0.490193,  0.492893,  0.49947 ,  0.507501],
+       [ 0.493411,  0.506393,  0.499553,  0.489611],
+       [ 0.491931,  0.503453,  0.509046,  0.497308],
+       [ 0.500486,  0.50004 ,  0.504978,  0.500159],
+       [ 0.502545,  0.506109,  0.501411,  0.497691],
+       [ 0.505572,  0.508179,  0.502869,  0.497524],
+       [ 0.493383,  0.499389,  0.504163,  0.50949 ],
+       [ 0.509835,  0.505621,  0.488983,  0.494115],
+       [ 0.51022 ,  0.500319,  0.496296,  0.504541],
+       [ 0.49236 ,  0.485227,  0.501256,  0.502297],
+       [ 0.496386,  0.501631,  0.493982,  0.489832],
+       [ 0.486673,  0.496127,  0.496505,  0.50021 ],
+       [ 0.514912,  0.493692,  0.499438,  0.50293 ],
+       [ 0.505792,  0.496942,  0.502634,  0.500891],
+       [ 0.498338,  0.516481,  0.504869,  0.495852],
+       [ 0.493812,  0.496064,  0.504753,  0.494797],
+       [ 0.500156,  0.492373,  0.493381,  0.514306],
+       [ 0.491772,  0.504517,  0.485997,  0.501903],
+       [ 0.489161,  0.498377,  0.493417,  0.499951],
+       [ 0.501926,  0.508538,  0.506648,  0.502152],
+       [ 0.512457,  0.494537,  0.490528,  0.498282],
+       [ 0.49954 ,  0.500534,  0.507356,  0.499091],
+       [ 0.498592,  0.497729,  0.497631,  0.496413],
+       [ 0.507836,  0.491338,  0.496549,  0.493771],
+       [ 0.500518,  0.500438,  0.50249 ,  0.500901],
+       [ 0.49996 ,  0.503797,  0.496763,  0.504346],
+       [ 0.504079,  0.506028,  0.498611,  0.495113],
+       [ 0.497707,  0.508452,  0.504747,  0.504746],
+       [ 0.510344,  0.499445,  0.498672,  0.498012],
+       [ 0.501891,  0.492353,  0.496031,  0.489664],
+       [ 0.505161,  0.503386,  0.503797,  0.50416 ],
+       [ 0.501192,  0.503771,  0.498621,  0.513291]])
+Coordinates:
+  * t        (t) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+  * layer    (layer) object 'pressure' 'temperature' 'wind_x' 'wind_y'</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         Creating some synthetic rasters in
+         <code>
+          MLDataset
+         </code>
+         that are similar to LANDSAT imagery with 8 spectral layers:
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [25]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'layer_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)]</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">rand_np_arr</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">'x'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="p">(</span><span class="s1">'y'</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))]</span>
+<span class="n">rand_data_arr</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">rand_np_arr</span><span class="p">(),</span> <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">'x'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">))</span>
+<span class="n">data_vars</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="n">layer</span><span class="p">,</span> <span class="n">rand_data_arr</span><span class="p">())</span> <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="n">layers</span><span class="p">])</span>
+<span class="n">dset</span> <span class="o">=</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">data_vars</span><span class="p">)</span>
+<span class="n">dset</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[25]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:  (x: 200, y: 200)
+Coordinates:
+  * x        (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+  * y        (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+Data variables:
+    layer_1  (x, y) float64 0.2057 -1.15 1.308 0.6295 0.9121 -1.244 -0.7768 ...
+    layer_2  (x, y) float64 -0.3386 1.763 1.673 1.176 -1.307 -1.33 -1.343 ...
+    layer_3  (x, y) float64 -0.9408 -1.036 1.102 0.4921 -0.516 -0.5561 ...
+    layer_4  (x, y) float64 -1.742 0.6987 0.9873 -0.02936 -1.073 -0.1992 ...
+    layer_5  (x, y) float64 -1.049 0.6421 -1.749 1.623 0.5875 -1.782 -1.646 ...
+    layer_6  (x, y) float64 -1.397 -0.3429 -0.101 0.0783 0.07475 -0.1138 ...
+    layer_7  (x, y) float64 -2.528 -1.201 -0.875 0.8027 -0.5513 -0.1087 ...
+    layer_8  (x, y) float64 -0.6376 -0.05374 -0.2068 1.514 0.354 -0.01112 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         Examples of chaining callables that use
+         <code>
+          for_each_array
+         </code>
+         and
+         <code>
+          data_vars_func
+         </code>
+         as decorators, where the example functions also show the variety of return data types allowed in functions decorated by
+         <code>
+          data_vars_func
+         </code>
+         .
+        </p>
+        <p>
+         Note the
+         <code>
+          keep_arrays=True
+         </code>
+         keyword argument in the function prototypes - this means that the original
+         <code>
+          layers
+         </code>
+         passed into the decorated functions will be part of the
+         <code>
+          MLDataset
+         </code>
+         outputs, even if the decorated functions do not return them.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [26]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">standardize</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">arr</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">std</span>
+
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">ndvi</span><span class="p">(</span><span class="n">layer_5</span><span class="p">,</span> <span class="n">layer_4</span><span class="p">,</span> <span class="n">keep_arrays</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">'ndvi'</span><span class="p">,</span> <span class="p">(</span><span class="n">layer_5</span> <span class="o">-</span> <span class="n">layer_4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">layer_5</span> <span class="o">+</span> <span class="n">layer_4</span><span class="p">))])</span>
+
+
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">ndwi</span><span class="p">(</span><span class="n">layer_3</span><span class="p">,</span> <span class="n">layer_5</span><span class="p">,</span> <span class="n">keep_arrays</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">'ndwi'</span><span class="p">:</span> <span class="p">(</span><span class="n">layer_3</span> <span class="o">-</span> <span class="n">layer_5</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">layer_3</span> <span class="o">+</span> <span class="n">layer_5</span><span class="p">)}</span>
+
+
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">mndwi_36</span><span class="p">(</span><span class="n">layer_3</span><span class="p">,</span> <span class="n">layer_6</span><span class="p">,</span> <span class="n">keep_arrays</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">({</span><span class="s1">'mndwi_36'</span><span class="p">:</span> <span class="p">(</span><span class="n">layer_3</span> <span class="o">-</span> <span class="n">layer_6</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">layer_3</span> <span class="o">+</span> <span class="n">layer_6</span><span class="p">)})</span>
+
+
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">mndwi_37</span><span class="p">(</span><span class="n">layer_3</span><span class="p">,</span> <span class="n">layer_7</span><span class="p">,</span> <span class="n">keep_arrays</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">'mndwi_37'</span><span class="p">,</span> <span class="p">(</span><span class="n">layer_3</span> <span class="o">-</span> <span class="n">layer_7</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">layer_3</span> <span class="o">+</span> <span class="n">layer_7</span><span class="p">))]))</span>
+
+<span class="n">normed_diffs</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">chain</span><span class="p">((</span><span class="n">ndvi</span><span class="p">,</span> <span class="n">ndwi</span><span class="p">,</span> <span class="n">mndwi_36</span><span class="p">,</span> <span class="n">mndwi_37</span><span class="p">))</span>
+<span class="n">standardized</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">standardize</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'x'</span><span class="p">))</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [27]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">normed_diffs</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[27]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (x: 200, y: 200)
+Coordinates:
+  * x         (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+  * y         (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+Data variables:
+    mndwi_37  (x, y) float64 -0.4575 -0.07409 8.71 -0.2399 -0.03307 0.673 ...
+    mndwi_36  (x, y) float64 -0.1951 0.5026 1.202 0.7255 1.339 0.6604 ...
+    ndwi      (x, y) float64 -0.05435 4.263 -4.403 -0.5347 -15.43 -0.5244 ...
+    ndvi      (x, y) float64 -0.2483 -0.04214 3.591 1.037 -3.421 0.799 ...
+    layer_1   (x, y) float64 0.2057 -1.15 1.308 0.6295 0.9121 -1.244 -0.7768 ...
+    layer_2   (x, y) float64 -0.3386 1.763 1.673 1.176 -1.307 -1.33 -1.343 ...
+    layer_3   (x, y) float64 -0.9408 -1.036 1.102 0.4921 -0.516 -0.5561 ...
+    layer_4   (x, y) float64 -1.742 0.6987 0.9873 -0.02936 -1.073 -0.1992 ...
+    layer_5   (x, y) float64 -1.049 0.6421 -1.749 1.623 0.5875 -1.782 -1.646 ...
+    layer_6   (x, y) float64 -1.397 -0.3429 -0.101 0.0783 0.07475 -0.1138 ...
+    layer_7   (x, y) float64 -2.528 -1.201 -0.875 0.8027 -0.5513 -0.1087 ...
+    layer_8   (x, y) float64 -0.6376 -0.05374 -0.2068 1.514 0.354 -0.01112 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [28]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">standardized</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[28]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:  (x: 200, y: 200)
+Coordinates:
+  * x        (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+  * y        (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+Data variables:
+    layer_1  (x, y) float64 0.1133 -0.9913 1.208 0.5796 0.9299 -1.281 ...
+    layer_2  (x, y) float64 -0.2191 1.937 1.725 1.348 -1.252 -1.393 -1.192 ...
+    layer_3  (x, y) float64 -0.9028 -1.068 1.224 0.5139 -0.3531 -0.6708 ...
+    layer_4  (x, y) float64 -1.582 0.7389 1.006 0.0176 -1.053 -0.2102 ...
+    layer_5  (x, y) float64 -1.131 0.5838 -1.931 1.649 0.6675 -1.886 -1.708 ...
+    layer_6  (x, y) float64 -1.215 -0.3089 -0.1669 0.1324 0.1582 -0.1556 ...
+    layer_7  (x, y) float64 -2.392 -1.141 -0.745 0.6597 -0.6249 0.006187 ...
+    layer_8  (x, y) float64 -0.4762 -0.1219 -0.1356 1.557 0.3148 -0.132 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         Merging two
+         <code>
+          MLDataset
+         </code>
+         s and converting the merged output to a features 2-D
+         <code>
+          DataArray
+         </code>
+         :
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [29]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">catted</span> <span class="o">=</span> <span class="n">normed_diffs</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">standardized</span><span class="p">,</span> <span class="n">overwrite_vars</span><span class="o">=</span><span class="n">standardized</span><span class="o">.</span><span class="n">data_vars</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">catted</span> <span class="o">=</span> <span class="n">catted</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/merge.py:533: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  elif overwrite_vars == set(other):
+/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/_collections_abc.py:743: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  for key in self._mapping:
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [30]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">catted</span><span class="o">.</span><span class="n">features</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[30]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'features' (space: 40000, layer: 12)&gt;
+array([[-0.45752 , -0.195089, -0.054352, ..., -1.214781, -2.391996, -0.476214],
+       [-0.074091,  0.502572,  4.263453, ..., -0.30895 , -1.141291, -0.121904],
+       [ 8.709869,  1.201793, -4.403228, ..., -0.166914, -0.745047, -0.135598],
+       ..., 
+       [-0.379463, -0.696751, -0.391354, ..., -0.697039, -0.374042,  0.890838],
+       [-0.279059, -8.709046,  1.783529, ..., -1.063337,  1.727148, -0.778712],
+       [-0.245155, -5.143229,  0.257451, ..., -1.842043,  2.277689, -0.09115 ]])
+Coordinates:
+  * space    (space) MultiIndex
+  - x        (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - y        (space) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 ...
+  * layer    (layer) object 'mndwi_37' 'mndwi_36' 'ndwi' 'ndvi' 'layer_1' ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [31]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">catted</span><span class="o">.</span><span class="n">layer</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[31]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'layer' (layer: 12)&gt;
+array(['mndwi_37', 'mndwi_36', 'ndwi', 'ndvi', 'layer_1', 'layer_2', 'layer_3',
+       'layer_4', 'layer_5', 'layer_6', 'layer_7', 'layer_8'], dtype=object)
+Coordinates:
+  * layer    (layer) object 'mndwi_37' 'mndwi_36' 'ndwi' 'ndvi' 'layer_1' ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [32]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">catted</span><span class="o">.</span><span class="n">from_features</span><span class="p">()</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[32]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (x: 200, y: 200)
+Coordinates:
+  * x         (x) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+  * y         (y) int64 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 ...
+Data variables:
+    mndwi_37  (x, y) float64 -0.4575 -0.07409 8.71 -0.2399 -0.03307 0.673 ...
+    mndwi_36  (x, y) float64 -0.1951 0.5026 1.202 0.7255 1.339 0.6604 ...
+    ndwi      (x, y) float64 -0.05435 4.263 -4.403 -0.5347 -15.43 -0.5244 ...
+    ndvi      (x, y) float64 -0.2483 -0.04214 3.591 1.037 -3.421 0.799 ...
+    layer_1   (x, y) float64 0.1133 -0.9913 1.208 0.5796 0.9299 -1.281 ...
+    layer_2   (x, y) float64 -0.2191 1.937 1.725 1.348 -1.252 -1.393 -1.192 ...
+    layer_3   (x, y) float64 -0.9028 -1.068 1.224 0.5139 -0.3531 -0.6708 ...
+    layer_4   (x, y) float64 -1.582 0.7389 1.006 0.0176 -1.053 -0.2102 ...
+    layer_5   (x, y) float64 -1.131 0.5838 -1.931 1.649 0.6675 -1.886 -1.708 ...
+    layer_6   (x, y) float64 -1.215 -0.3089 -0.1669 0.1324 0.1582 -0.1556 ...
+    layer_7   (x, y) float64 -2.392 -1.141 -0.745 0.6597 -0.6249 0.006187 ...
+    layer_8   (x, y) float64 -0.4762 -0.1219 -0.1356 1.557 0.3148 -0.132 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         The following synthetic data example shows the logic above in this notebook can work for any number of dimensions, e.g. the 6-D
+         <code>
+          DataArray
+         </code>
+         s below:
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [33]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">shp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">)</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="n">dim</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">shp</span><span class="p">,</span> <span class="n">dims</span><span class="p">)])</span>
+<span class="n">dset</span> <span class="o">=</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">'layer_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> 
+                               <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">shp</span><span class="p">),</span>
+                                            <span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
+                                            <span class="n">dims</span><span class="o">=</span><span class="n">dims</span><span class="p">))</span> 
+                              <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]))</span>
+<span class="n">dset</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[33]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:  (a: 2, b: 3, c: 4, d: 5, e: 6, f: 7)
+Coordinates:
+  * a        (a) int64 0 1
+  * b        (b) int64 0 1 2
+  * c        (c) int64 0 1 2 3
+  * d        (d) int64 0 1 2 3 4
+  * e        (e) int64 0 1 2 3 4 5
+  * f        (f) int64 0 1 2 3 4 5 6
+Data variables:
+    layer_0  (a, b, c, d, e, f) float64 4.86 8.261 3.274 -10.64 -1.401 ...
+    layer_1  (a, b, c, d, e, f) float64 -2.849 11.3 -1.716 10.55 14.69 ...
+    layer_2  (a, b, c, d, e, f) float64 -0.9942 -10.1 -20.37 -5.836 -1.135 ...
+    layer_3  (a, b, c, d, e, f) float64 4.382 -3.699 4.419 -2.466 -9.8 3.299 ...
+    layer_4  (a, b, c, d, e, f) float64 -6.235 -6.037 14.62 0.3124 -7.587 ...
+    layer_5  (a, b, c, d, e, f) float64 -22.43 2.969 -3.328 5.508 -6.908 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [34]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">dset</span><span class="o">.</span><span class="n">layer_0</span><span class="o">.</span><span class="n">shape</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[34]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>(2, 3, 4, 5, 6, 7)</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         With 6-D
+         <code>
+          DataArray
+         </code>
+         s, calling
+         <code>
+          to_features
+         </code>
+         creates a
+         <code>
+          pandas.MultiIndex
+         </code>
+         with 6 components:
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [35]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">dset</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[35]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (layer: 6, space: 5040)
+Coordinates:
+  * space     (space) MultiIndex
+  - a         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - b         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - c         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - d         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - e         (space) int64 0 0 0 0 0 0 0 1 1 1 1 1 1 1 2 2 2 2 2 2 2 3 3 3 ...
+  - f         (space) int64 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 ...
+  * layer     (layer) object 'layer_0' 'layer_1' 'layer_2' 'layer_3' ...
+Data variables:
+    features  (space, layer) float64 4.86 -2.849 -0.9942 4.382 -6.235 -22.43 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing text_cell rendered">
+      <div class="prompt input_prompt">
+      </div>
+      <div class="inner_cell">
+       <div class="text_cell_render border-box-sizing rendered_html">
+        <p>
+         The following cells demonstrate
+         <code>
+          MLDataset.chain
+         </code>
+         is the same as calling
+         <code>
+          .pipe
+         </code>
+         several times in sequence.
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [36]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="nd">@for_each_array</span>
+<span class="k">def</span> <span class="nf">example_agg</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">)</span>
+
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">layers_example_with_kw</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="n">new</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">'new_layer_100'</span><span class="p">,</span> <span class="n">kw</span><span class="p">[</span><span class="s1">'layer_3'</span><span class="p">]</span> <span class="o">+</span> <span class="n">kw</span><span class="p">[</span><span class="s1">'layer_4'</span><span class="p">])])</span>
+    <span class="n">new</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+
+<span class="nd">@data_vars_func</span>
+<span class="k">def</span> <span class="nf">layers_example_named_args</span><span class="p">(</span><span class="n">layer_1</span><span class="p">,</span> <span class="n">layer_2</span><span class="p">,</span> <span class="n">new_layer_100</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">MLDataset</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="s1">'final'</span><span class="p">,</span> <span class="n">new_layer_100</span> <span class="o">/</span> <span class="p">(</span><span class="n">layer_1</span> <span class="o">+</span> <span class="n">layer_2</span><span class="p">))]))</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [37]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">dset</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">example_agg</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'a'</span>
+         <span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">example_agg</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">'b'</span>
+               <span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">layers_example_with_kw</span>
+                     <span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">layers_example_named_args</span><span class="p">)</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[37]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (layer: 1, space: 840)
+Coordinates:
+  * space     (space) MultiIndex
+  - c         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - d         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - e         (space) int64 0 0 0 0 0 0 0 1 1 1 1 1 1 1 2 2 2 2 2 2 2 3 3 3 ...
+  - f         (space) int64 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 ...
+  * layer     (layer) object 'final'
+Data variables:
+    features  (space, layer) float64 0.3976 0.6714 0.3157 0.4596 0.9187 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [38]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">dset</span><span class="o">.</span><span class="n">chain</span><span class="p">([(</span><span class="n">example_agg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'a'</span><span class="p">)),</span>
+             <span class="p">(</span><span class="n">example_agg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)),</span>
+             <span class="n">layers_example_with_kw</span><span class="p">,</span>
+             <span class="n">layers_example_named_args</span><span class="p">,</span>
+            <span class="p">])</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[38]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.MLDataset&gt;
+Dimensions:   (layer: 1, space: 840)
+Coordinates:
+  * space     (space) MultiIndex
+  - c         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - d         (space) int64 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ...
+  - e         (space) int64 0 0 0 0 0 0 0 1 1 1 1 1 1 1 2 2 2 2 2 2 2 3 3 3 ...
+  - f         (space) int64 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 3 4 5 6 0 1 2 ...
+  * layer     (layer) object 'final'
+Data variables:
+    features  (space, layer) float64 0.3976 0.6714 0.3157 0.4596 0.9187 ...</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [39]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">flattened</span> <span class="o">=</span> <span class="n">dset</span><span class="o">.</span><span class="n">chain</span><span class="p">([(</span><span class="n">example_agg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'a'</span><span class="p">)),</span>
+                         <span class="p">(</span><span class="n">example_agg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">'b'</span><span class="p">)),</span>
+                         <span class="n">layers_example_with_kw</span><span class="p">,</span>
+                         <span class="n">layers_example_named_args</span><span class="p">,</span>
+                        <span class="p">])</span><span class="o">.</span><span class="n">to_features</span><span class="p">()</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt">
+         </div>
+         <div class="output_subarea output_stream output_stderr output_text">
+          <pre>/home/travis/miniconda/envs/xarray_filters_py36/lib/python3.6/site-packages/xarray/core/dataset.py:378: FutureWarning: iteration over an xarray.Dataset will change in xarray v0.11 to only include data variables, not coordinates. Iterate over the Dataset.variables property instead to preserve existing behavior in a forwards compatible manner.
+  both_data_and_coords = [k for k in data_vars if k in coords]
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [40]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">flattened</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="cell border-box-sizing code_cell rendered">
+      <div class="input">
+       <div class="prompt input_prompt">
+        In [41]:
+       </div>
+       <div class="inner_cell">
+        <div class="input_area">
+         <div class=" highlight hl-ipython3">
+          <pre><span></span><span class="n">flattened</span><span class="o">.</span><span class="n">layer</span>
+</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="output_wrapper">
+       <div class="output">
+        <div class="output_area">
+         <div class="prompt output_prompt">
+          Out[41]:
+         </div>
+         <div class="output_text output_subarea output_execute_result">
+          <pre>&lt;xarray.DataArray 'layer' (layer: 1)&gt;
+array(['final'], dtype=object)
+Coordinates:
+  * layer    (layer) object 'final'</pre>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+     <hr class="docutils"/>
+     <p>
+      <a class="reference external" href="https://raw.githubusercontent.com/ceball/xarray_filters/master/examples/user_guide/Preparing_for_ML_Workflows.ipynb">
+       Right click to download this notebook from GitHub.
+      </a>
+     </p>
+    </div>
+   </div>
+  </div>
+  <!-- END MAIN BODY OF DOCS ––––––––––––– -->
+  <footer class="footer">
+   <div class="footer-links">
+    <ul>
+     <li>
+      <span class="footer-title">
+       Links
+      </span>
+     </li>
+     <li>
+      <a href="index.html">
+       User Guide
+      </a>
+     </li>
+     <li>
+      <a href="../FAQ.html">
+       FAQ
+      </a>
+     </li>
+     <li>
+      <a href="../about.html">
+       About
+      </a>
+     </li>
+    </ul>
+    <ul>
+     <li>
+      <span class="footer-title">
+       Join Us
+      </span>
+     </li>
+     <li>
+      <a href="//github.com/ContinuumIO/xarray_filters">
+       Github
+      </a>
+     </li>
+    </ul>
+    <ul class="copyright">
+     <li>
+      2017 xarray_filters contributors
+     </li>
+    </ul>
+   </div>
+  </footer>
+  <!-- Google Analytics -->
+  <script>
+   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61554933-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <!-- MathJax Config -->
+  <script type="text/x-mathjax-config">
+   MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+  </script>
+  <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ </body>
+</html>
