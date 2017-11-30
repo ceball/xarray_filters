@@ -27,7 +27,28 @@ install:
     - source activate $ENV_NAME
 
 script:
-    - conda build -c conda-forge --python $PYTHON --numpy $NUMPY conda.recipe
+    # move to e.g. a docs stage before merging
+    # - conda build -c conda-forge --python $PYTHON --numpy $NUMPY conda.recipe
+    - pip install -e .
+    # install nbsite (there's no conda package yet - hopefully coming soon)
+    - conda install -c conda-forge sphinx beautifulsoup4 graphviz notebook jupyter ipykernel
+    - pip install nbsite sphinx_ioam_theme
+    - cd doc
+    - nbsite_nbpagebuild.py ceball xarray_filters ../notebooks .
+    - sphinx-build -b html . ./_build/html
+    - nbsite_fix_links.py _build/html
+    - nbsite_cleandisthtml.py ./_build/html take_a_chance
+    - touch ./_build/html/.nojekyll
+    - cd ..
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: ./doc/_build/html
+  on:
+    branch: website
+
 
 notifications:
   on_success: change
